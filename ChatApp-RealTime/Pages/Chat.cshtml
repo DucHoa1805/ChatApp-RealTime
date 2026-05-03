@@ -1,0 +1,122 @@
+@page
+@model ChatApp_RealTime.Pages.ChatModel
+@{
+    ViewData["Title"] = "Chat";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChatApp - Real Time</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="chat-body">
+
+<div class="chat-layout">
+    <!-- Sidebar: user list -->
+    <div class="chat-sidebar">
+        <div class="sidebar-header">
+            <div class="current-user-info">
+                <div class="avatar">@Model.CurrentUsername[0].ToString().ToUpper()</div>
+                <div>
+                    <div class="username">@Model.CurrentUsername</div>
+                    <div class="status online">● Đang hoạt động</div>
+                </div>
+            </div>
+            <form method="post" asp-page-handler="Logout" style="margin:0">
+                <button type="submit" class="btn-logout" title="Đăng xuất">⏻</button>
+            </form>
+        </div>
+
+        <div class="sidebar-search">
+            <input type="text" id="searchUsers" placeholder="🔍 Tìm kiếm..." class="search-input" />
+        </div>
+
+        <div class="users-label">Người dùng</div>
+        <div class="users-list" id="usersList">
+            @foreach (var user in Model.AllUsers)
+            {
+                if (user.Username != Model.CurrentUsername)
+                {
+                    <div class="user-item @(user.Username == Model.ChatPartnerUsername ? "active" : "")"
+                         onclick="selectUser('@user.Username')"
+                         data-username="@user.Username">
+                        <div class="avatar avatar-sm">@user.Username[0].ToString().ToUpper()</div>
+                        <div class="user-item-info">
+                            <div class="user-item-name">@user.Username</div>
+                            <div class="user-item-status" id="status-@user.Username">● Offline</div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+    <!-- Main chat area -->
+    <div class="chat-main">
+        @if (string.IsNullOrEmpty(Model.ChatPartnerUsername))
+        {
+            <div class="chat-empty">
+                <div class="empty-icon">💬</div>
+                <h3>Chọn một người để bắt đầu chat</h3>
+                <p>Chọn người dùng từ danh sách bên trái</p>
+            </div>
+        }
+        else
+        {
+            <!-- Chat header -->
+            <div class="chat-header">
+                <div class="chat-partner-info">
+                    <div class="avatar">@Model.ChatPartnerUsername[0].ToString().ToUpper()</div>
+                    <div>
+                        <div class="partner-name">@Model.ChatPartnerUsername</div>
+                        <div class="partner-status" id="partnerStatus">● Offline</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages -->
+            <div class="chat-messages" id="messageContainer">
+                @foreach (var msg in Model.Messages)
+                {
+                    var isMine = msg.Sender.Username == Model.CurrentUsername;
+                    <div class="message-wrapper @(isMine ? "mine" : "theirs")">
+                        @if (!isMine)
+                        {
+                            <div class="avatar avatar-xs">@msg.Sender.Username[0].ToString().ToUpper()</div>
+                        }
+                        <div class="message-bubble @(isMine ? "bubble-mine" : "bubble-theirs")">
+                            <div class="message-text">@msg.Content</div>
+                            <div class="message-time">@msg.Timestamp.ToLocalTime().ToString("HH:mm")</div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Message input -->
+            <div class="chat-input-area">
+                <div class="input-wrapper">
+                    <input type="text" id="messageInput" class="message-input"
+                           placeholder="Nhập tin nhắn..." maxlength="2000"
+                           onkeypress="handleEnter(event)" />
+                    <button id="sendBtn" class="send-btn" onclick="sendMessage()">
+                        <span>➤</span>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+<script>
+    const currentUsername = "@Model.CurrentUsername";
+    const chatPartner = "@Model.ChatPartnerUsername";
+</script>
+<script src="~/js/chat.js" asp-append-version="true"></script>
+</body>
+</html>

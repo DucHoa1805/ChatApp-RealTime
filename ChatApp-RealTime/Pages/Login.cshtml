@@ -1,0 +1,43 @@
+@page
+@model ChatApp_RealTime.Pages.LoginModel
+@{
+    ViewData["Title"] = "Đăng Nhập";
+    Layout = "_Layout";
+}
+
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <i class="chat-icon">💬</i>
+            <h2>Chào Mừng Trở Lại</h2>
+            <p>Đăng nhập để bắt đầu chat</p>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger">@Model.ErrorMessage</div>
+        }
+
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Input.Username">Tên đăng nhập</label>
+                <input asp-for="Input.Username" class="form-control" placeholder="Nhập tên đăng nhập" autocomplete="username" />
+                <span asp-validation-for="Input.Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password">Mật khẩu</label>
+                <input asp-for="Input.Password" class="form-control" placeholder="Nhập mật khẩu" autocomplete="current-password" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Đăng Nhập</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Chưa có tài khoản? <a asp-page="/Register">Đăng ký ngay</a></p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

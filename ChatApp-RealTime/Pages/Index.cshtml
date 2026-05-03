@@ -1,10 +1,45 @@
 ﻿@page
-@model IndexModel
+@model ChatApp_RealTime.Pages.IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Trang Chủ";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center home-hero">
+    <div class="hero-icon">💬</div>
+    <h1 class="display-4">ChatApp Real-Time</h1>
+    <p class="lead">Ứng dụng chat real-time với SignalR – kết nối mọi người</p>
+
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <div class="mt-4">
+            <a asp-page="/Chat" class="btn btn-primary btn-lg me-2">Vào Chat 🚀</a>
+        </div>
+    }
+    else
+    {
+        <div class="mt-4">
+            <a asp-page="/Login" class="btn btn-primary btn-lg me-2">Đăng Nhập</a>
+            <a asp-page="/Register" class="btn btn-outline-primary btn-lg">Đăng Ký</a>
+        </div>
+    }
+
+    <div class="features mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-3 feature-item">
+                <div class="feature-icon">⚡</div>
+                <h5>Real-Time</h5>
+                <p>Tin nhắn gửi và nhận tức thì với SignalR</p>
+            </div>
+            <div class="col-md-3 feature-item">
+                <div class="feature-icon">🔒</div>
+                <h5>Bảo Mật</h5>
+                <p>Mật khẩu được mã hóa an toàn với BCrypt</p>
+            </div>
+            <div class="col-md-3 feature-item">
+                <div class="feature-icon">💾</div>
+                <h5>Lưu Trữ</h5>
+                <p>Tin nhắn được lưu vào database</p>
+            </div>
+        </div>
+    </div>
 </div>
