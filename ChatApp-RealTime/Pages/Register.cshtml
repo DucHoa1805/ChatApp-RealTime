@@ -1,0 +1,53 @@
+@page
+@model ChatApp_RealTime.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Đăng Ký";
+    Layout = "_Layout";
+}
+
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <i class="chat-icon">💬</i>
+            <h2>Tạo Tài Khoản</h2>
+            <p>Tham gia ChatApp ngay hôm nay</p>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger">@Model.ErrorMessage</div>
+        }
+
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Input.Username">Tên đăng nhập</label>
+                <input asp-for="Input.Username" class="form-control" placeholder="Nhập tên đăng nhập" autocomplete="username" />
+                <span asp-validation-for="Input.Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Email">Email</label>
+                <input asp-for="Input.Email" class="form-control" placeholder="Nhập địa chỉ email" autocomplete="email" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password">Mật khẩu</label>
+                <input asp-for="Input.Password" class="form-control" placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)" autocomplete="new-password" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword">Xác nhận mật khẩu</label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Nhập lại mật khẩu" autocomplete="new-password" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Đăng Ký</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Đã có tài khoản? <a asp-page="/Login">Đăng nhập ngay</a></p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
