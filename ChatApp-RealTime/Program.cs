@@ -33,7 +33,7 @@ namespace ChatApp_RealTime
                 var port = Environment.GetEnvironmentVariable("MYSQLPORT");
                 var user = Environment.GetEnvironmentVariable("MYSQLUSER");
                 var password = Environment.GetEnvironmentVariable("MYSQLPASSWORD");
-                var database = Environment.GetEnvironmentVariable("MYSQLDATABASE");
+                var database = Environment.GetEnvironmentVariable("");
 
                 // Ghép thành chuỗi kết nối (Connection String)
                 string connectionString = $"Server={host};Port={port};Database={database};Uid={user};Pwd={password};";
