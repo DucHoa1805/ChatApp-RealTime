@@ -17,8 +17,7 @@ namespace ChatApp_RealTime
 
             // Database
             builder.Services.AddDbContext<ChatDbContext>(options =>
-                options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")
-                    ?? "Data Source=chatapp.db"));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             // SignalR
             builder.Services.AddSignalR();
@@ -40,11 +39,11 @@ namespace ChatApp_RealTime
 
             var app = builder.Build();
 
-            // Auto-create the database on startup
+            // Auto-migrate the database on startup
             using (var scope = app.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<ChatDbContext>();
-                db.Database.EnsureCreated();
+                db.Database.Migrate();
             }
 
             // Configure the HTTP request pipeline.
