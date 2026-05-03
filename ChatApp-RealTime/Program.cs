@@ -28,6 +28,19 @@ namespace ChatApp_RealTime
 
             builder.Services.AddDbContext<ChatDbContext>(options =>
             {
+                // Lấy thông tin từ các biến môi trường Railway cung cấp
+                var host = Environment.GetEnvironmentVariable("MYSQLHOST");
+                var port = Environment.GetEnvironmentVariable("MYSQLPORT");
+                var user = Environment.GetEnvironmentVariable("MYSQLUSER");
+                var password = Environment.GetEnvironmentVariable("MYSQLPASSWORD");
+                var database = Environment.GetEnvironmentVariable("MYSQLDATABASE");
+
+                // Ghép thành chuỗi kết nối (Connection String)
+                string connectionString = $"Server={host};Port={port};Database={database};Uid={user};Pwd={password};";
+
+                // Debug log (xóa dòng này sau khi chạy thành công)
+                Console.WriteLine("DEBUG Connection String: " + connectionString);
+
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             });
 
