@@ -17,13 +17,17 @@ namespace ChatApp_RealTime
             builder.Services.AddRazorPages();
 
             // Database
+            // Lấy từ biến môi trường "DATABASE_URL"
+            string? connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+            // Nếu ở máy local chưa có biến môi trường thì lấy từ appsettings.json
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            }
+
             builder.Services.AddDbContext<ChatDbContext>(options =>
             {
-                // Lấy connection string từ appsettings.json
-                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-                // Thay UseNpgsql bằng UseMySql
-                // Lưu ý: Thay "8.0.30" bằng phiên bản MySQL bạn đang cài đặt
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             });
 
