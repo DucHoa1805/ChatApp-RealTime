@@ -49,4 +49,4 @@ dotnet build ChatApp-RealTime.slnx
 dotnet test ChatApp-RealTime.slnx
 ```
 
-Hiện chưa có dự án test trong repo.
+Hiện chưa có dự án test trong repo, nên `dotnet test` sẽ không chạy test nào.
