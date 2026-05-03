@@ -3,6 +3,7 @@ using ChatApp_RealTime.Hubs;
 using ChatApp_RealTime.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace ChatApp_RealTime
 {
@@ -17,7 +18,14 @@ namespace ChatApp_RealTime
 
             // Database
             builder.Services.AddDbContext<ChatDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            {
+                // Lấy connection string từ appsettings.json
+                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+                // Thay UseNpgsql bằng UseMySql
+                // Lưu ý: Thay "8.0.30" bằng phiên bản MySQL bạn đang cài đặt
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            });
 
             // SignalR
             builder.Services.AddSignalR();
