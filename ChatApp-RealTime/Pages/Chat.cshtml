@@ -42,6 +42,7 @@
 
         html, body {
             height: 100%;
+            height: -webkit-fill-available;
             font-family: 'Sora', sans-serif;
             background: var(--bg-base);
             color: var(--text-primary);
@@ -57,6 +58,7 @@
         .chat-layout {
             display: flex;
             height: 100vh;
+            height: 100dvh;
             width: 100vw;
             position: relative;
             overflow: hidden;
@@ -435,6 +437,7 @@
         /* ─── Input area ─── */
         .chat-input-area {
             padding: 16px 20px;
+            padding-bottom: calc(16px + env(safe-area-inset-bottom));
             background: var(--bg-surface);
             border-top: 1px solid var(--border);
             flex-shrink: 0;
@@ -564,7 +567,10 @@
 
             .chat-header { padding: 14px 16px 14px 58px; }
             .chat-messages { padding: 16px; }
-            .chat-input-area { padding: 12px; }
+            .chat-input-area { 
+                padding: 12px; 
+                padding-bottom: calc(12px + env(safe-area-inset-bottom));
+            }
             .message-bubble { max-width: 82%; }
         }
 
